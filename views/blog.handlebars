@@ -1,0 +1,22 @@
+{{> blog-info blog}}
+
+{{#if loggedIn}}
+<article class="blog" id="comment-form">
+    <form class="comment-form">
+        <div>Comment</div>
+        <div>
+            <textarea name="comment-body"></textarea>
+        </div>
+
+        <div>
+            <button type="submit" id="submit">Submit</button>
+        </div>
+    </form>
+</article>
+{{/if}}
+
+{{> comments blog.comments}}
+
+{{#if loggedIn}}
+<script src="/public/js/commenting.js"></script>
+{{/if}}
