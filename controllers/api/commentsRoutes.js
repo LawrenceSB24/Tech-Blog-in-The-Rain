@@ -4,44 +4,36 @@ const withAuth = require('../../utils/auth');
 
 // Retrieves all comments from the blog(s)
 router.get('/', (req, res) => {
-    try {
-        const comData = await Comments.findAll();
-        res.status(200).json(comData);
-    } catch (err) {
-        res.status(500).json(err);
-    }
+    Comments.findAll()
+    .then(dbCommentData => res.status(200).json(dbCommentData))
+    .catch(err => {res.status(500).json(err)});
 })
 
 
 // Creating new comments (with user account)
 router.post('/', withAuth, async (req, res) => {
-    try{
-        const newComment = await Comments.create({
-            ...req.body,
-            user_id: req.session.user_id,
-            blog_id: req.body.blog_id
-        });
-
-        res.status(200).json(newComment);
-    } catch (err) {
-        res.status(400).json(err);
-    }
+    Comments.create({
+        ...req.body,
+        user_id: req.session.user_id,
+        blog_id: req.body.blog_id
+    })
+    .then(dbCommentData => res.status(200).json(dbCommentData))
+    .catch(err => {res.status(500).json(err)});
+    
 });
 
 // Deleting comments from a blog post
 router.delete('/:id', withAuth, (req, res) => {
-    try {
-        const delCommentData = await Comments.destroy({
-            where: {id: req.params.id}
-        })
+    Comments.destroy({
+        where: {id: req.params.id}
+    })
 
-        if (!delCommentData) {
-            res.status(404).json({message: 'No comment identified'});
+    .then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({message: 'No blog with this id'});
             return;
         }
-
-        res.status(200).json(delCommentData);
-    } catch (err) {
-        res.status(500).json(err);
-    }
+        res.status(200).json(dbCommentData);
+    })
+    .catch(err => {res.status(500).json(err)});
 });
