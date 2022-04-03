@@ -17,7 +17,7 @@ User.init(
             autoIncrement: true
         },
         username: {
-            type: Datatypes.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         email: {
@@ -28,7 +28,7 @@ User.init(
             }
         },
         password: {
-            type: Datatypes.STRING,
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 len: [14]
