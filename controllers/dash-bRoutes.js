@@ -1,4 +1,4 @@
-const router = require('sequelize').Router();
+const router = require('express').Router();
 const {Blog, User, Comments} = require('../models');
 const withAuth = require('../utils/auth');
 
@@ -7,7 +7,7 @@ const sequelize = require('../config/connection');
 // Retrieves all blog posts from the dashboard
 router.get('/', withAuth, (req, res) => {
     try {
-        const blogData = await Blog.findAll({
+        const blogData = Blog.findAll({
             where: {user_id: req.session.user_id},
             attributes: ['id', 'title', 'description', 'created_at'],
             include: [
@@ -31,7 +31,7 @@ router.get('/', withAuth, (req, res) => {
 // Only allows users to edit blog posts in dashboard AFTER loggin in
 router.get('/edit/:id', withAuth, (req, res) => {
     try {
-        const blogData = await Blog.findByPk(
+        const blogData = Blog.findByPk(
             req.params.id,
             {
                 attributes: ['id', 'title', 'description', 'created_at'],

@@ -5,7 +5,7 @@ const withAuth = require('../utils/auth');
 // Retrieve all blog posts and JOIN with user & comment data
 router.get('/', async (req, res) => {
     try{
-        const blogData = await Blog.findAll({
+        const blogData = Blog.findAll({
             attributes: ['id', 'title', 'description', 'created_at'],
             include: [
                 {
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 // Retrieving a specific blog post
 router.get('/blog/:id', async (req, res) => {
     try{
-        const blogData = await Blog.findOne({
+        const blogData = Blog.findOne({
             where: {id: req.params.id},
             attributes: ['id', 'title', 'description', 'created_at'],
             include: [
