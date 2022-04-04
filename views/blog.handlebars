@@ -1,4 +1,4 @@
-{{> blog-info blog}}
+{{> blog-content blog}}
 
 {{#if loggedIn}}
 <article class="blog" id="comment-form">
@@ -18,5 +18,5 @@
 {{> comments blog.comments}}
 
 {{#if loggedIn}}
-<script src="/public/js/commenting.js"></script>
+<script src="/js/commenting.js"></script>
 {{/if}}
