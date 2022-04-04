@@ -1,6 +1,6 @@
 <article class="blog">
     <div class="title">
-        <a href="/post/{{id}}" target="_blank">
+        <a href="/blog/{{id}}" target="_blank">
         {{title}}
         <span class="user-info">
             {{user.username}} on {{format_date created_at}}
@@ -9,6 +9,8 @@
     </div>
 
     <div class="comments">
-        <a href="/post/{{id}}">{{description}}</a>
+        <a href="/blog/{{id}}">
+        {{user.username}}{{comment_description}}
+        </a>
     </div>
 </article>
