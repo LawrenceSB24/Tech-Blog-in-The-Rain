@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 });
 
 // Finds blog from specific user
-router.get(':/id', (req, res) => {
+router.get('/:id', (req, res) => {
     User.findOne({
         attributes: {exclude: password},
         where: {id: req.params.id},
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
             return;
         }
     
-        res.session.save(() => {
+        req.session.save(() => {
             req.session.user_id = dbUserData.id;
             req.session.username = dbUserData.username;
             req.session.logged_in = true;
@@ -72,28 +72,14 @@ router.post('/login', async (req, res) => {
 
 // Sign-up sheet for new users
 router.post('/signup', async (req, res) => {
-    var userGen = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
+    var userGen = await User.create(req.body)
+    req.session.save(() => {
+        req.session.user_id = userGen.id;
+        req.session.username = userGen.username;
+        req.session.logged_in = true;
+
+        res.json({user: userGen, message: 'You are now logged in'})
     });
-    await User.findOne({
-            where: {
-                username: req.body.username,
-                email: req.body.email
-            }
-        })
-        .then(async profile => {
-            if (!profile) {
-                await userGen.save()
-                .then(() => {
-                    res.status(200).send(userGen)
-                })
-            } else {
-                res.send('User account currently exists.')
-            }
-        })
-        .catch(err => {res.status(500).json(err)});
 })
 
 
