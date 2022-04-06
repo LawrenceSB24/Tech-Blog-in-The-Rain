@@ -7,7 +7,7 @@ async function deleteFormHandler(event) {
     ];
 
     if (comment_text) {
-        const response = await fetch(`/api/blogs/${id}`, {
+        const response = await fetch(`/api/blog/${id}`, {
             method: 'DELETE'
         });
 
